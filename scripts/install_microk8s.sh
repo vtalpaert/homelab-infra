@@ -15,6 +15,10 @@ while getopts ":v:" option; do
     esac
 done
 
+# Install basics
+sudo apt update
+sudo apt install -y git
+
 # Install or refresh snap
 if [[ "$(snap info $SNAP | grep -c 'installed: ')" -eq 1 ]]; then
     echo Refeshing $SNAP
@@ -35,3 +39,5 @@ else
 fi
 
 microk8s status --wait-ready
+microk8s enable ingress
+microk8s enable cert-manager
