@@ -38,7 +38,7 @@ spec:
         # If not, you will get permissions errors.
         certManager:
           # namespace in which your cert-manager is deployed
-          namespace: cert-manager
+          namespace: default #cert-manager
           # cert-manager serverAccount name (default: cert-manager)
           serviceAccountName: cert-manager
 

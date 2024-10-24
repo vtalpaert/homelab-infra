@@ -4,12 +4,18 @@
 DISPLAY_ARGOCD_PASSWORD=false
 SSH_URL=$(git config --get remote.origin.url)
 
-while getopts ":pu:" option; do
+while getopts ":puasc:" option; do
     case $option in
     p) # Display ArgoCD password
         DISPLAY_ARGOCD_PASSWORD=true ;;
     u) # Git SSH url
         SSH_URL=$OPTARG ;;
+    a) # OVH API credentials
+        APPLICATION_KEY=$OPTARG ;;
+    s) # OVH API credentials
+        APPLICATION_SECRET=$OPTARG ;;
+    c) # OVH API credentials
+        CONSUMER_KEY=$OPTARG ;;
     \?) # Invalid option
         echo "Error: Invalid option"
         exit
@@ -54,6 +60,23 @@ spec:
     - port: 8080
       nodePort: 30000
 EOF
+
+# Create secrets for OVH API key
+# https://aureq.github.io/cert-manager-webhook-ovh/
+if [ "$APPLICATION_KEY" = "" ] || [ "$APPLICATION_SECRET" = "" ] || [ "$CONSUMER_KEY" = "" ] ; then
+    echo Create an API key at https://api.ovh.com/console/
+    echo Enter ApplicationKey
+    read APPLICATION_KEY
+    echo Enter ApplicationSecret
+    read APPLICATION_SECRET
+    echo Enter ConsumerKey
+    read CONSUMER_KEY
+fi
+if [ "$APPLICATION_KEY" = "" ] || [ "$APPLICATION_SECRET" = "" ] || [ "$CONSUMER_KEY" = "" ] ; then
+    echo Skip ovh-credentials secret
+else
+    microk8s kubectl create secret generic ovh-credentials --from-literal=applicationKey=$APPLICATION_KEY --from-literal=applicationSecret=$APPLICATION_SECRET --from-literal=consumerKey=$CONSUMER_KEY
+fi
 
 # Install argocd CLI
 curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
