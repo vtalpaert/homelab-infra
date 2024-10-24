@@ -8,6 +8,7 @@ spec:
     chart: cert-manager-webhook-ovh
     repoURL: https://aureq.github.io/cert-manager-webhook-ovh/
     targetRevision: 0.7.0
+    path: ""
     helm:
       #  releaseName: cert-manager-webhook-ovh-charts
       valuesFiles:
@@ -15,3 +16,8 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
