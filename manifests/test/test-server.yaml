@@ -82,10 +82,10 @@ spec:
   ingressClassName: public
   tls:
     - hosts:
-        - "dyndns.robotcocktail.ovh"
+        - "a.robotcocktail.ovh"
       secretName: test-server-ingress-tls
   rules:
-    - host: "dyndns.robotcocktail.ovh"
+    - host: "a.robotcocktail.ovh"
       http:
         paths:
           - path: /
