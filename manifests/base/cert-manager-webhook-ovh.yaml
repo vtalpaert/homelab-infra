@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-webhook-ovh
+spec:
+  project: default
+  source:
+    chart: cert-manager-webhook-ovh
+    repoURL: https://aureq.github.io/cert-manager-webhook-ovh/
+    targetRevision: 0.7.0
+    helm:
+      #  releaseName: cert-manager-webhook-ovh-charts
+      valuesFiles:
+        - values-cert-manager-webhook-ovh.yaml
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default
