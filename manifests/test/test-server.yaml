@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: test-http-server-deployment-1
+  labels:
+    app: test-http-server-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-http-server-1
+  template:
+    metadata:
+      labels:
+        app: test-http-server-1
+    spec:
+      containers:
+        - name: server-container-1
+          image: byjg/static-httpserver
+          ports:
+            - containerPort: 8080
+          env:
+            - name: HTML_TITLE
+              value: "Hello there"
+            - name: TITLE
+              value: "Hello Homelab"
+            - name: MESSAGE
+              value: "Enjoy your debugging session."
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: service-for-test-server-1-with-external-ip
+spec:
+  type: ClusterIP # ClusterIP is the default if type is ommited
+  selector:
+    app: test-http-server-1
+  ports:
+    - name: http
+      protocol: TCP
+      port: 81 # or use 80 for a permanent page
+      targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: test-server-https-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: public
+  tls:
+    - hosts:
+        - "test.robotcocktail.ovh"
+      secretName: test-server-ingress-tls
+  rules:
+    - host: "test.robotcocktail.ovh"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-for-test-server-1-with-external-ip
+                port:
+                  number: 81
