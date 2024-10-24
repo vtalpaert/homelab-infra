@@ -50,7 +50,7 @@ metadata:
   namespace: default
   name: test-server-https-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-dns-ovh
     #nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: public

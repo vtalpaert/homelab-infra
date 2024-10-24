@@ -12,6 +12,6 @@ spec:
   #  - x.x.x.x
   # Issuer references are always required.
   issuerRef:
-    name: letsencrypt
+    name: letsencrypt-dns-ovh
     kind: ClusterIssuer
     #group: cert-manager.io
