@@ -38,6 +38,8 @@ if [ $DISPLAY_ARGOCD_PASSWORD = "true" ] ; then
     echo Your ArgoCD password is: $ARGOCD_PASSWORD
 fi
 
+# Add a NodePort service to access ArgoCd on my-ip:30000
+# Anyone that can view this IP can access the port !!
 microk8s kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Service
@@ -58,7 +60,17 @@ curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/lat
 sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
 
+# Login to local API server and ignore self signed certificate
 argocd login localhost:30000 --insecure --name argocd --username admin --password $ARGOCD_PASSWORD
+
+# Add a repository, by default the one where this script lives
 argocd repo add $SSH_URL --ssh-private-key-path ~/.ssh/id_ed25519
 
+# Create the base app
+# Will essentially enable SSL certificates
 argocd app create base --repo $SSH_URL --path manifests/base --allow-empty --auto-prune --self-heal --sync-policy auto --dest-server https://kubernetes.default.svc --dest-namespace default
+
+# Create VPN app
+# TODO
+
+# Remove public and NodePort access to ArgoCD
