@@ -63,6 +63,7 @@ EOF
 
 # Create secrets for OVH API key
 # https://aureq.github.io/cert-manager-webhook-ovh/
+# https://iderr.github.io/p/ovh-provider-for-cert-manager-dns-01/
 if [ "$APPLICATION_KEY" = "" ] || [ "$APPLICATION_SECRET" = "" ] || [ "$CONSUMER_KEY" = "" ] ; then
     echo Create an API key at https://api.ovh.com/console/
     echo Enter ApplicationKey
@@ -75,7 +76,7 @@ fi
 if [ "$APPLICATION_KEY" = "" ] || [ "$APPLICATION_SECRET" = "" ] || [ "$CONSUMER_KEY" = "" ] ; then
     echo Skip ovh-credentials secret
 else
-    microk8s kubectl create secret generic ovh-credentials --from-literal=applicationKey=$APPLICATION_KEY --from-literal=applicationSecret=$APPLICATION_SECRET --from-literal=consumerKey=$CONSUMER_KEY
+    microk8s kubectl create secret generic ovh-credentials --namespace cert-manager --from-literal=applicationKey=$APPLICATION_KEY --from-literal=applicationSecret=$APPLICATION_SECRET --from-literal=consumerKey=$CONSUMER_KEY
 fi
 
 # Install argocd CLI
