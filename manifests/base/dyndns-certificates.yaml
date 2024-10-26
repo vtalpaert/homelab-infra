@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dyndns-certs
+  namespace: default
+spec:
+  secretName: dyndns-tls
+  # At least one of a DNS Name, URI, or IP address is required.
+  dnsNames:
+    - dyndns.robotcocktail.ovh
+  #ipAddresses: # letsencrypt will not issue certs for a private IP address
+  #  - x.x.x.x
+  # Issuer references are always required.
+  issuerRef:
+    name: letsencrypt-http
+    kind: ClusterIssuer
+    #group: cert-manager.io
