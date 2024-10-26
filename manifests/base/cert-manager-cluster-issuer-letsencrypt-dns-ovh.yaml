@@ -35,6 +35,7 @@ spec:
       name: letsencrypt-account-key
     solvers:
       - dns01:
+          cnameStrategy: Follow
           webhook:
             groupName: robotcocktail.ovh
             solverName: ovh
