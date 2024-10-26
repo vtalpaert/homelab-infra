@@ -40,7 +40,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 80 # or use 80 for a permanent page
+      port: 8080 # or use 80 for a permanent page
       targetPort: 8080
 ---
 apiVersion: networking.k8s.io/v1
@@ -79,10 +79,10 @@ metadata:
     #nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: public
-  tls:
-    - hosts:
-        - a.robotcocktail.ovh
-      secretName: test-server-1-tls-ovh-robotcocktail-a
+  #tls:
+  #  - hosts:
+  #      - a.robotcocktail.ovh
+  #    secretName: test-server-1-tls-ovh-robotcocktail-a
   rules:
     - host: a.robotcocktail.ovh
       http:
