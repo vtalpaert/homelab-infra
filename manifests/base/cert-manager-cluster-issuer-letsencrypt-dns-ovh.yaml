@@ -36,7 +36,7 @@ spec:
     solvers:
       - dns01:
           webhook:
-            groupName: acme.robotcocktail.ovh
+            groupName: robotcocktail.ovh
             solverName: ovh
             config:
               endpoint: ovh-eu

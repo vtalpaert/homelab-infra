@@ -21,4 +21,4 @@ spec:
         # solve the DNS01 challenge.
         # This group name should be **unique**, hence using your own company's domain
         # here is recommended.
-        groupName: acme.robotcocktail.ovh
+        groupName: robotcocktail.ovh
