@@ -40,9 +40,8 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 81 # or use 80 for a permanent page
+      port: 80 # or use 80 for a permanent page
       targetPort: 8080
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -56,10 +55,10 @@ spec:
   ingressClassName: public
   tls:
     - hosts:
-        - "testdns.robotcocktail.ovh"
-      secretName: test-server-ingress-tls
+        - testdns.robotcocktail.ovh
+      secretName: test-server-1-tls-ovh-robotcocktail-testdns
   rules:
-    - host: "testdns.robotcocktail.ovh"
+    - host: testdns.robotcocktail.ovh
       http:
         paths:
           - path: /
@@ -68,7 +67,7 @@ spec:
               service:
                 name: service-for-test-server-1
                 port:
-                  number: 81
+                  name: http
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -82,10 +81,10 @@ spec:
   ingressClassName: public
   tls:
     - hosts:
-        - "a.robotcocktail.ovh"
-      secretName: test-server-ingress-tls
+        - a.robotcocktail.ovh
+      secretName: test-server-1-tls-ovh-robotcocktail-a
   rules:
-    - host: "a.robotcocktail.ovh"
+    - host: a.robotcocktail.ovh
       http:
         paths:
           - path: /
@@ -94,4 +93,4 @@ spec:
               service:
                 name: service-for-test-server-1
                 port:
-                  number: 81
+                  name: http
