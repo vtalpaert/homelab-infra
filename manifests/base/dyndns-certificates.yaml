@@ -8,8 +8,8 @@ spec:
   # At least one of a DNS Name, URI, or IP address is required.
   dnsNames:
     - dyndns.robotcocktail.ovh
-  #ipAddresses: # letsencrypt will not issue certs for a private IP address
-  #  - x.x.x.x
+  ipAddresses: # letsencrypt will not issue certs for a private IP address
+    - 10.153.10.236
   # Issuer references are always required.
   issuerRef:
     name: letsencrypt-http
