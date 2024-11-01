@@ -81,10 +81,10 @@ spec:
   ingressClassName: public
   tls:
     - hosts:
-        - a.robotcocktail.ovh
-      secretName: test-server-1-tls-ovh-robotcocktail-a
+        - b.robotcocktail.ovh
+      secretName: test-server-1-tls-ovh-robotcocktail-b
   rules:
-    - host: a.robotcocktail.ovh
+    - host: b.robotcocktail.ovh
       http:
         paths:
           - path: /
