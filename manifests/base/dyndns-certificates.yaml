@@ -7,9 +7,9 @@ spec:
   secretName: dyndns-tls
   # At least one of a DNS Name, URI, or IP address is required.
   dnsNames:
-    - dyndns.robotcocktail.ovh
+    - dyndns2.robotcocktail.ovh
   ipAddresses: # letsencrypt will not issue certs for a private IP address
-    - 10.153.10.236
+    - 37.67.158.139
   # Issuer references are always required.
   issuerRef:
     name: letsencrypt-http
