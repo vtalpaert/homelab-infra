@@ -94,3 +94,17 @@ spec:
                 name: service-for-test-server-1
                 port:
                   name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-for-test-server-2
+  annotations:
+    metallb.universe.tf/address-pool: sandbox
+spec:
+  ports:
+    - port: 8080
+      targetPort: 80
+  selector:
+    app: test-http-server-1
+  type: LoadBalancer
