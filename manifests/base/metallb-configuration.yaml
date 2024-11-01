@@ -1,0 +1,58 @@
+autoAssign: true
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: production
+  namespace: metallb-system
+spec:
+  # Production services will go here
+  addresses:
+    #- 10.153.10.236
+    - 37.67.158.139
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: sandbox
+  namespace: metallb-system
+spec:
+  addresses:
+    # The sandbox environment uses private IP space, which is
+    # free and plentiful. We give this address pool a ton of
+    # IPs, so that developers can spin up as many sandboxes as
+    # they need.
+    - 192.168.144.0/20
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: external
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - production
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: local
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - sandbox
+  communities:
+    - vpn-only
+---
+# Our datacenter routers understand a "VPN only" BGP community.
+# Announcements tagged with this community will only be propagated
+# through the corporate VPN tunnel back to developer offices.
+apiVersion: metallb.io/v1beta1
+kind: Community
+metadata:
+  name: communities
+  namespace: metallb-system
+spec:
+  communities:
+    - name: vpn-only
+      value: 1234:1

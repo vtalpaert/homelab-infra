@@ -41,3 +41,4 @@ fi
 microk8s status --wait-ready
 microk8s enable ingress
 microk8s enable cert-manager
+microk8s enable metallb 192.168.144.0/20
